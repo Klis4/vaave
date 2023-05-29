@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material";
 
-function App() {
-  const [count, setCount] = useState(0)
+import MainPage from "./pages/MainPage";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+import { CUSTOM_PALETTE } from "./assets/palette";
+
+declare module '@mui/material/styles' {
+  interface CustomColor {
+    [colorName: string]: string;
+  }
+  interface Palette {
+    custom: CustomColor
+  }
+
+  interface PaletteOptions {
+    custom?: CustomColor
+  }
 }
 
-export default App
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#0052cc",
+    },
+    secondary: {
+      main: "#edf2ff",
+    },
+    custom: {
+      ...CUSTOM_PALETTE
+    }
+  },
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <MainPage></MainPage>
+    </ThemeProvider>
+  );
+}
+
+export default App;
